@@ -1,35 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abdul Al Rubaye</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abduljaleel Al Rubaye — Portfolio</title>
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      background-color: #222; /* dark background */
-      color: #f5f5dc; /* light cream font */
+    :root{
+      --bg:#0f1115;
+      --card:#1a1d24;
+      --text:#e9edf4;
+      --muted:#a9b1c3;
+      --pill:#262b35;
+      --btn:#0a66c2;      /* LinkedIn blue */
+      --btn-text:#fff;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --ring:0 0 0 3px rgba(11,92,255,.25);
     }
-    h1 {
-      margin: 0;
-      font-size: 3rem;
-      text-align: center;
+    [data-theme="light"]{
+      --bg:#f3f5f9;
+      --card:#ffffff;
+      --text:#0e1222;
+      --muted:#4b5568;
+      --pill:#f1f3f7;
+      --btn:#0a66c2;
+      --btn-text:#ffffff;
+      --shadow:0 10px 30px rgba(10,15,30,.08);
+      --ring:0 0 0 3px rgba(11,92,255,.18);
     }
-    p {
-      margin-top: 10px;
-      font-style: italic;
-      color: #ccc; /* light gray */
+
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    .wrapper{
+      max-width:1150px;
+      margin:24px auto 0;
+      padding:0 20px 80px;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:28px clamp(20px,3vw,40px);
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      min-height:45vh;
+      display:grid;
+      grid-template-columns:minmax(240px,360px) 1fr;
+      align-items:center;
+      gap:clamp(20px,5vw,48px);
+      margin-bottom:28px;
+    }
+
+    .brand-logo{
+      position:absolute; top:18px; left:22px;
+      width:100px; height:100px; border-radius:10px; overflow:hidden;
+      background:#00000010;
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:contain}
+
+    .theme-toggle{
+      position:absolute; top:18px; right:22px;
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--pill); padding:6px 8px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12); z-index:5;
+    }
+    [data-theme="light"] .theme-toggle{border-color:rgba(20,25,40,.12)}
+
+    .switch{position:relative;width:40px;height:22px}
+    .switch input{opacity:0;width:0;height:0}
+    .slider{position:absolute;inset:0;cursor:pointer;background:#2a2f3a;border-radius:999px;transition:background .25s ease}
+    .slider::before{content:"";position:absolute;height:18px;width:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:transform .25s ease}
+    input:checked + .slider{background:#cfd6e6}
+    input:checked + .slider::before{transform:translateX(18px)}
+
+    .avatar-wrap{display:grid;place-items:center}
+    .avatar{
+      width:min(300px,38vw);aspect-ratio:1/1;border-radius:50%;
+      overflow:hidden;position:relative;background:#111;
+      box-shadow:0 15px 40px rgba(0,0,0,.35);
+      border:10px solid rgba(255,255,255,.08);
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block;filter:none}
+
+    .eyebrow{color:var(--muted);font-weight:600;letter-spacing:.02em}
+    h1{font-size:clamp(36px,5vw,56px);margin:6px 0 10px;line-height:1.05}
+    .intro{color:var(--muted);max-width:60ch;margin:0 0 20px}
+
+    .actions{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
+    .btn{
+      appearance:none;border:0;border-radius:24px;padding:12px 22px;font-weight:700;
+      background:var(--btn);color:var(--btn-text);
+      cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px;
+      box-shadow:none; /* removed shadows */
+      transition:background .2s ease, transform .15s ease;
+    }
+    .btn:hover{background:#1677ff; transform:translateY(-1px)} /* blue bg on hover */
+    .btn:focus-visible{outline:none;box-shadow:var(--ring)}
+    .btn.secondary{background:transparent;color:var(--text);border:2px solid rgba(255,255,255,.35)}
+    [data-theme="light"] .btn.secondary{border-color:rgba(20,25,40,.25)}
+
+    /* CONTENT CARD */
+    .content{padding:0}
+    .subsection{padding:26px clamp(16px,2.5vw,28px)}
+    .subsection h2{font-size:clamp(22px,2.4vw,28px);margin:0 0 12px}
+
+    .grid-2x2{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .tile{background:var(--pill);border-radius:16px;padding:16px}
+    .tile h3{margin:2px 0 6px;font-size:18px}
+
+    .edu-grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .edu{background:var(--pill);border-radius:16px;padding:18px}
+    .degree{font-weight:700;font-size:18px}
+
+    .pub-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin: 0;
+    }
+    .pub-list li {
+      margin-bottom: 8px;
+    }
+    .pub-list a {
+      color: var(--link, #8fb3ff);
+      text-decoration: none;
+    }
+    .pub-list a:hover {
+      text-decoration: underline;
+    }
+
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{
+      background:var(--pill);
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:600;
+      border:2px solid transparent;
+      transition:border .2s ease;
+    }
+    .chip:hover{
+      border:2px solid #1677ff; /* blue border only */
+    }
+
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;text-align:center}
+      .intro{margin-inline:auto}
+      .actions{justify-content:center}
+    }
+    @media (max-width:680px){
+      .grid-2x2{grid-template-columns:1fr}
+      .edu-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
-  <h1>Abdul Al Rubaye</h1>
-  <p>coming soon</p>
+  <main class="wrapper">
+    <!-- HERO -->
+    <header class="card hero">
+      <div class="brand-logo">
+        <img id="brandLogo" src="logo.png" alt="Your logo"/>
+      </div>
+      <div class="theme-toggle">
+        <span class="muted" id="themeLabel">Dark</span>
+        <label class="switch" aria-label="Toggle color theme">
+          <input id="themeSwitch" type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="avatar-wrap">
+        <figure class="avatar"><img src="pic.png" alt="Your portrait"/></figure>
+      </div>
+      <div class="hero-copy">
+        <div class="eyebrow" id="currentTitle">Data Scientist & Product Manager</div>
+        <h1 id="yourName">Abduljaleel Al Rubaye</h1>
+        <p class="intro" id="intro">Senior Data Scientist and Product Manager with a Ph.D. in Computer Science, leading teams to design and deliver AI-powered, data-driven solutions. Certified Scrum Product Owner (CSPO) with expertise in product vision, strategy, and execution—balancing deep technical knowledge in AI, analytics, and quality assurance with strong leadership and communication. I focus on guiding cross-functional teams, aligning stakeholders, and ensuring every product release drives innovation, reliability, and business impact.</p>
+        <div class="actions">
+          <a class="btn" id="cvBtn" href="000-Resume_Abdul_Rubaye.pdf" download>Download CV</a>
+          <a class="btn secondary" href="#contact">Contact</a>
+          <a class="btn" id="linkedinLink" href="https://www.linkedin.com/in/aalrubaye/">LinkedIn</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="card content" id="content">
+      <div class="subsection" id="what-i-do">
+        <h2>What I Do</h2>
+        <div class="grid-2x2">
+          <article class="tile"><h3>Product Leadership & Strategy</h3><p class="muted">Set product vision and strategy that align with business goals and market needs. I lead teams in shaping and executing roadmaps, ensuring initiatives deliver real value and competitive advantage.</p></article>
+          <article class="tile"><h3>AI & Data-Driven Innovation</h3><p class="muted">Bring advanced AI, NLP, and analytics into products to transform raw data into intelligent insights. I focus on building solutions that not only inform but also empower decision-making at scale.</p></article>
+          <article class="tile"><h3>Team Management & Cross-Functional Alignment</h3><p class="muted">Lead engineers, designers, and domain experts with clear direction and collaborative energy. My strength lies in aligning diverse teams, streamlining workflows, and ensuring seamless delivery across complex environments.</p></article>
+          <article class="tile"><h3>Communication & Stakeholder Engagement</h3><p class="muted">Bridge the gap between technical depth and business priorities. I translate complex concepts into clear, actionable outcomes, driving trust, alignment, and shared ownership of the product vision.</p></article>
+          <article class="tile"><h3>Quality, Compliance & Delivery Excellence</h3><p class="muted">Grounded in a strong QA background, I ensure that every release is reliable, compliant, and ready to scale. From automation frameworks to enterprise standards, I embed quality into the product lifecycle.</p></article>
+        </div>
+      </div>
+
+      <div class="subsection" id="education">
+        <h2>Education</h2>
+        <div class="edu-grid">
+          <div class="edu"><div class="degree">Ph.D.</div><div class="muted">Computer Science • University of Central Florida, Orlando • FL, 2024</div></div>
+          <div class="edu"><div class="degree">Master</div><div class="muted">Computer Science • Florida Institute of Technology, Melbourne, FL • 2016</div></div>
+          <div class="edu"><div class="degree">Bachelor</div><div class="muted">Computer Science • University of Babylon, Al-Hilla, Iraq • 2009</div></div>
+        </div>
+      </div>
+
+      <div class="subsection" id="publications">
+        <h2>Publications</h2>
+        <div class="tile">
+          <ul class="pub-list">
+            <li><a href="https://ieeexplore.ieee.org/abstract/document/9458206" target="_blank">Scoring popularity in GitHub. In2020 International Conference on Computational Science and Computational Intelligence (CSCI) 2020 Dec 16 (pp. 217-223). IEEE.</a></li>
+            <li><a href="https://dl.acm.org/doi/abs/10.1145/2914586.2914599?casa_token=A6kDlUoIg_8AAAAA:E6xwsbHu22RXsjtWbLjjB5fU25L8n7Jaw0Nhyvg49SqQiaWUffjmD48sb6ycx4822OnLGgqSr5K1fDw" target="_blank">Extracting social structures from conversations in Twitter: A case study on health-related posts. InProceedings of the 27th ACM Conference on Hypertext and Social Media 2016 Jul 10 (pp. 5-13).</a></li>
+            <li><a href="https://link.springer.com/chapter/10.1007/978-3-030-35902-7_11" target="_blank">A popularity-based model of the diffusion of innovation on GitHub. InConference of the Computational Social Science Society of the Americas 2018 Oct 25 (pp. 165-178). Cham: Springer International Publishing.
+</a></li>
+            <li><a href="https://ieeexplore.ieee.org/abstract/document/10068709" target="_blank">Improving Code Review with GitHub Issue Tracking. In2022 IEEE/ACM International Conference on Advances in Social Networks Analysis and Mining (ASONAM) 2022 Nov 10 (pp. 210-217). IEEE.
+</a></li>
+            <li><a href="https://link.springer.com/article/10.1007/s13278-024-01312-y" target="_blank">Popularity and discourse in tech-related online communities. Social Network Analysis and Mining. 2024 Jul 31;14(1):146.</a></li>
+            <li><a href="https://stars.library.ucf.edu/etd2023/100/" target="_blank">GitHub Uncovered: Revealing the Social Fabric of Software Development Communities.</a></li>
+            <li><a href="https://dl.acm.org/doi/abs/10.5555/3126311" target="_blank">Social-Sensor Networks. Chapter in - Internet of Things and Big Data Analysis: Recent Trends and Challenges - November 2016</a></li>
+            
+          </ul>
+        </div>
+      </div>
+
+      <div class="subsection" id="skills">
+        <h2>Skills</h2>
+        <div class="skills">
+          <span class="chip">Product Strategy</span>
+          <span class="chip">AI / NLP</span>
+          <span class="chip">Data Science</span>
+          <span class="chip">Analytics</span>
+          <span class="chip">Stakeholder Alignment</span>
+          <span class="chip">Roadmapping</span>
+          <span class="chip">Agile / Scrum</span>
+        </div>
+      </div>
+
+      <div class="subsection" id="contact">
+        <h2>Contact</h2>
+        <div class="tile">
+          <ul class="pub-list">
+            <li>rabiei140@gmail.com</li>
+            <li>ajrubaye@gmail.com</li>
+            <li>abdul.alrubaye@zs.com</li>
+            <li>+1-321-368-1081</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const saved=localStorage.getItem('theme');
+    const prefersLight=window.matchMedia('(prefers-color-scheme: light)').matches;
+    const theme=saved||(prefersLight?'light':'dark');
+    document.body.setAttribute('data-theme',theme);
+
+    const switchEl=document.getElementById('themeSwitch');
+    const label=document.getElementById('themeLabel');
+    switchEl.checked=theme==='light';
+    label.textContent=theme==='light'?'Light':'Dark';
+
+    switchEl.addEventListener('change',()=>{
+      const next=switchEl.checked?'light':'dark';
+      document.body.setAttribute('data-theme',next);
+      localStorage.setItem('theme',next);
+      label.textContent=next==='light'?'Light':'Dark';
+    });
+  </script>
 </body>
 </html>
